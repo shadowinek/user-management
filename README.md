@@ -32,11 +32,14 @@ php artisan key:generate
 
 Use `./vendor/bin/sail down` to stop the server.
 
-6. TODO: Migrations
+6. Run the migrations
 ```
+./vendor/bin/sail php artisan migrate:fresh --seed 
 ```
 
 7.Open in your browser and enjoy. The default url should be http://localhost or http://127.0.0.1
+
+You can login with email `admin@example.com` and password `password` 
 
 #### Database
 MySQL database `laravel` is available on 127.0.0.1:3306 with user `sail` and password `password`. You can change this in your `.env` config.
@@ -77,7 +80,7 @@ Table groups {
   is_admin_group bool
 }
 
-Table user_group {
+Table users_groups {
   user_id int [ref: > users.id]
   group_id int [ref: > groups.id]
 }
@@ -108,3 +111,6 @@ Table user_group {
 #### 24/05 13:30 (45m)
 * Added a simple design
 * I didn't include the domain model. The last time I did a proper UML was 10+ years ago and I would need more time to refresh my knowledge of it.
+
+### 24/05 15:00 (1h30m)
+* Users in the Admin group could login into the system. Other users shouldn't be able to login.

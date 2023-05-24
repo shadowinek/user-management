@@ -42,4 +42,19 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function groups()
+    {
+        return $this->belongsToMany(
+            Group::class,
+            'users_groups',
+            'user_id',
+            'group_id'
+        );
+    }
+
+    public function isAdmin()
+    {
+        return $this->groups()->get()->contains('is_admin_group', true);
+    }
 }
