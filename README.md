@@ -112,5 +112,9 @@ Table users_groups {
 * Added a simple design
 * I didn't include the domain model. The last time I did a proper UML was 10+ years ago and I would need more time to refresh my knowledge of it.
 
-### 24/05 15:00 (1h30m)
+#### 24/05 15:00 (1h30m)
 * Users in the Admin group could login into the system. Other users shouldn't be able to login.
+
+#### 24/05 18:00 (2h30m)
+* Added CRUD for Groups
+* Styling with Tailwind CSS, that is included in the Laravel, is kind of hell. I spent more time on that than the rest around  
