@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Group;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class GroupController extends Controller
 {
@@ -16,7 +18,9 @@ class GroupController extends Controller
 
     public function create()
     {
-        return view('groups.create');
+        $users = User::all(['id', 'name'])->sortBy('name');
+
+        return view('groups.create', compact('users'));
     }
 
     public function store(Request $request)
@@ -25,9 +29,12 @@ class GroupController extends Controller
             'name' => 'required',
         ]);
 
-        Group::create([
+        $group = Group::create([
             'name' => $request->get('name'),
         ]);
+
+        $users = array_filter($request->get('users'));
+        $group->users()->sync($users);
 
         return redirect()->route('groups.index')->with('success', 'Group created successfully.');
     }
@@ -50,7 +57,9 @@ class GroupController extends Controller
 
     public function edit(Group $group)
     {
-        return view('groups.edit', compact('group'));
+        $users = User::all(['id', 'name'])->sortBy('name');
+
+        return view('groups.edit', compact('group', 'users'));
     }
 
     public function update(Request $request, Group $group)
@@ -62,6 +71,15 @@ class GroupController extends Controller
         $group->update([
             'name' => $request->get('name'),
         ]);
+
+        $users = array_filter($request->get('users'));
+
+        // can't remove yourself from the group
+        if ($group->is_admin_group && $group->users()->get()->contains('id', Auth::user()->id)) {
+            $users[] = Auth::user()->id;
+        }
+
+        $group->users()->sync($users);
 
         return redirect()->route('groups.index')->with('success', 'Group updated successfully');
     }

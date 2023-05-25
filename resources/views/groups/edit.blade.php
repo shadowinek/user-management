@@ -14,6 +14,17 @@
             <x-input-error :messages="$errors->get('name')" class="mt-2" />
         </div>
 
+        <div class="mt-4">
+            <x-input-label for="users" :value="__('Users (Press Ctrl to not lose the previous selections)')" />
+            <select name="users[]" id="users[]" multiple class="block mt-1 w-full" size="15">
+                <option value="0">(no user)</option>
+                @foreach ($users as $user)
+                    <option value="{{ $user->id }}" {{ $group->users()->get()->contains('id', $user->id) ? 'selected' : '' }}>{{ $user->name }}</option>
+                @endforeach
+            </select>
+            <x-input-error :messages="$errors->get('users')" class="mt-2" />
+        </div>
+
         <div class="flex items-center justify-start mt-4 gap-x-2">
             <x-primary-button type="submit">Submit</x-primary-button>
             &nbsp;

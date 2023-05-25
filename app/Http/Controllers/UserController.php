@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Group;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -16,7 +18,9 @@ class UserController extends Controller
 
     public function create()
     {
-        return view('users.create');
+        $groups = Group::all(['id', 'name', 'is_admin_group'])->sortBy('name');
+
+        return view('users.create', compact('groups'));
     }
 
     public function store(Request $request)
@@ -26,11 +30,14 @@ class UserController extends Controller
             'email' => 'required',
         ]);
 
-        User::create([
+        $user = User::create([
             'name' => $request->get('name'),
             'email' => $request->get('email'),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
         ]);
+
+        $groups = array_filter($request->get('groups'));
+        $user->groups()->sync($groups);
 
         return redirect()->route('users.index')->with('success', 'User created successfully.');
     }
@@ -54,7 +61,9 @@ class UserController extends Controller
 
     public function edit(User $user)
     {
-        return view('users.edit', compact('user'));
+        $groups = Group::all(['id', 'name', 'is_admin_group'])->sortBy('name');
+
+        return view('users.edit', compact('user', 'groups'));
     }
 
     public function update(Request $request, User $user)
@@ -66,6 +75,21 @@ class UserController extends Controller
         $user->update([
             'name' => $request->get('name'),
         ]);
+
+        $groups = array_filter($request->get('groups'));
+
+        // can't remove admin group if you are an admin
+        if (Auth::user()->id === $user->id) {
+            $user_admin_groups = $user->groups()->get()->filter(function ($g) {
+                return $g->is_admin_group;
+            });
+
+            foreach ($user_admin_groups as $group) {
+                $groups[] = $group->id;
+            }
+        }
+
+        $user->groups()->sync($groups);
 
         return redirect()->route('users.index')->with('success', 'User updated successfully');
     }
