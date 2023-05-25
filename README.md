@@ -118,3 +118,7 @@ Table users_groups {
 #### 24/05 18:00 (2h30m)
 * Added CRUD for Groups
 * Styling with Tailwind CSS, that is included in the Laravel, is kind of hell. I spent more time on that than the rest around  
+
+#### 25/05 09:00 (3h)
+* Added CRUD for Users
+* TODO: Groups/Users assigment
