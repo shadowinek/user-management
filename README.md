@@ -37,7 +37,13 @@ Use `./vendor/bin/sail down` to stop the server.
 ./vendor/bin/sail php artisan migrate:fresh --seed 
 ```
 
-7. Open in your browser and enjoy. The default url should be http://localhost or http://127.0.0.1
+7. Start the npm
+```
+./vendor/bin/sail npm install
+./vendor/bin/sail npm run dev
+```
+
+8. Open in your browser and enjoy. The default url should be http://localhost or http://127.0.0.1
 
 You can login with email `admin@example.com` and password `password` 
 
@@ -126,4 +132,3 @@ Table users_groups {
 #### 25/05 10:00 (3h30m)
 * Added Groups/Users assigment
 * The base user stories should be now implemented
-* TODO: Implement at least one api endpoint
