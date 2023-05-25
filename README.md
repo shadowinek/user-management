@@ -37,7 +37,7 @@ Use `./vendor/bin/sail down` to stop the server.
 ./vendor/bin/sail php artisan migrate:fresh --seed 
 ```
 
-7. Start the npm
+7. Install and run the npm
 ```
 ./vendor/bin/sail npm install
 ./vendor/bin/sail npm run dev
@@ -109,6 +109,8 @@ Table users_groups {
 * POST `/groups/{group_id}/users/{user_id}` - add user with {user_id} into group with {group_id}
 * DELETE `/groups/{group_id}/users/{user_id}` - remove user with {user_id} from group with {group_id}
 
+Note: I missed an endpoint for mass assignments in my original design
+
 ## Dev Diary
 #### 24/05 12:30 (15m)
 * Initial setup of the Laravel app
@@ -132,3 +134,26 @@ Table users_groups {
 #### 25/05 10:00 (3h30m)
 * Added Groups/Users assigment
 * The base user stories should be now implemented
+
+#### 25/05 10:30 (4h)
+* Instead of API implementation I spent the rest of the time on manual tests and small fixes
+
+### Summary
+#### What went well
+* My knowledge of Laravel is not that dated as I thought and I spent less time reading the documentation than expected.
+* Timing and task planning was good, and I was able to stick to my original plan (expect the API implementation)
+
+#### What went wrong
+* Tailwind (and frontend in general) is not my cup of tea and I struggled a lot with it
+* I should refresh my knowledge about UML
+* The assumptions I gave myself complicated some aspects of the implementation (e.g. additional conditions for group/user edit so it's not possible to delete an active admin)
+
+#### Improvements for the next time
+* Start with the API implementation
+* Start with Bootstrap instead of Tailwind, because I am more familiar with it
+* Add tests
+
+#### Final thoughts
+* My last interaction with Laravel was more than 3 years ago, and coming back to it was better than expected. I would still need more time to figure out all the best practices.
+* Before I started to implement the task in Laravel I played around with Symfony for a while, but it would take me even more time to finish as my latest experience with it is 10+ years old.
+* I prefer tech tasks in a spirit of https://www.codingame.com/ or https://adventofcode.com/. This task feels more focused on my framework knowledge than on my coding skills.

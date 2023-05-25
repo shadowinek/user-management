@@ -33,7 +33,7 @@ class GroupController extends Controller
             'name' => $request->get('name'),
         ]);
 
-        $users = array_filter($request->get('users'));
+        $users = array_filter($request->get('users') ?? []);
         $group->users()->sync($users);
 
         return redirect()->route('groups.index')->with('success', 'Group created successfully.');
@@ -72,7 +72,7 @@ class GroupController extends Controller
             'name' => $request->get('name'),
         ]);
 
-        $users = array_filter($request->get('users'));
+        $users = array_filter($request->get('users') ?? []);
 
         // can't remove yourself from the group
         if ($group->is_admin_group && $group->users()->get()->contains('id', Auth::user()->id)) {

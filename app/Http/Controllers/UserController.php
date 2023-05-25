@@ -27,7 +27,7 @@ class UserController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'email' => 'required',
+            'email' => 'required|email',
         ]);
 
         $user = User::create([
@@ -36,7 +36,7 @@ class UserController extends Controller
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
         ]);
 
-        $groups = array_filter($request->get('groups'));
+        $groups = array_filter($request->get('groups') ?? []);
         $user->groups()->sync($groups);
 
         return redirect()->route('users.index')->with('success', 'User created successfully.');
@@ -70,13 +70,15 @@ class UserController extends Controller
     {
         $request->validate([
             'name' => 'required',
+            'email' => 'required',
         ]);
 
         $user->update([
             'name' => $request->get('name'),
+            'email' => $request->get('email'),
         ]);
 
-        $groups = array_filter($request->get('groups'));
+        $groups = array_filter($request->get('groups') ?? []);
 
         // can't remove admin group if you are an admin
         if (Auth::user()->id === $user->id) {
